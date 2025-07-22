@@ -66,6 +66,15 @@ Engineer Email   Doctor Email
              ↓
      Send Final Notification
 
+flowchart TD
+    A[Form Submission] --> B[Append/Update Google Sheet]
+    B --> C[Filter (≠ Student)]
+    C --> D[Switch (Engineer / Doctor)]
+    D --> E1[Engineer Email]
+    D --> E2[Doctor Email]
+    E1 --> F[Merge]
+    E2 --> F[Merge]
+    F --> G[Send Final Notification]
 
 
 ---
