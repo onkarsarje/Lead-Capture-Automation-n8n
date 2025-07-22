@@ -50,44 +50,21 @@ This n8n workflow automates the intake of user submissions via a form and routes
   - Subject: `"New Lead"`
   - Message: `"You have a new lead, messaged"`
 
- ## 🧠 Logic Flow Diagram
-
-Form Submission
-      ↓
-Append/Update Google Sheet
-      ↓
-  Filter (≠ Student)
-      ↓
-   Switch (Engineer / Doctor)
-     ↓             ↓
-Engineer Email   Doctor Email
-     ↓             ↓
-        → Merge →
-             ↓
-     Send Final Notification
-
-flowchart TD
-    A[Form Submission] --> B[Append/Update Google Sheet]
-    B --> C[Filter (≠ Student)]
-    C --> D[Switch (Engineer / Doctor)]
-    D --> E1[Engineer Email]
-    D --> E2[Doctor Email]
-    E1 --> F[Merge]
-    E2 --> F[Merge]
-    F --> G[Send Final Notification]
-
 ### Logic Flow Diagram
-
-```mermaid
-flowchart TD
-    A[Form Submission] --> B[Append/Update Google Sheet]
-    B --> C[Filter (≠ Student)]
-    C --> D[Switch (Engineer / Doctor)]
-    D --> E1[Engineer Email]
-    D --> E2[Doctor Email]
-    E1 --> F[Merge]
-    E2 --> F[Merge]
-    F --> G[Send Final Notification]
+```
+Form Submission
+     ↓
+Append/Update Google Sheet
+     ↓
+Filter (not Student)
+     ↓
+Switch (Engineer / Doctor)
+    ↓           ↓
+Engineer Email  Doctor Email
+    ↓           ↓
+      → Merge →
+          ↓
+Send Final Notification
 ```
 
 ---
