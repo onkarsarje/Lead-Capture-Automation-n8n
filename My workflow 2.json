@@ -1,0 +1,424 @@
+{
+  "name": "My workflow 2",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Test Form",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "First Name"
+            },
+            {
+              "fieldLabel": "Last Name"
+            },
+            {
+              "fieldLabel": "Email",
+              "fieldType": "email"
+            },
+            {
+              "fieldLabel": "Occupation",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Student"
+                  },
+                  {
+                    "option": "Engineer"
+                  },
+                  {
+                    "option": "Retired"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f40a1e3a-8dfe-4452-ad4d-321125d98cab",
+      "name": "On form submission",
+      "webhookId": "b0e981ed-782d-4d34-91c2-dfdb500746e6"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1gSb277zLyCeXuDbq-2YvYw0ddj6iwHGBfFpg4n4d7RE",
+          "mode": "list",
+          "cachedResultName": "Test Spreadsheet 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gSb277zLyCeXuDbq-2YvYw0ddj6iwHGBfFpg4n4d7RE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gSb277zLyCeXuDbq-2YvYw0ddj6iwHGBfFpg4n4d7RE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "First Name": "={{ $json['First Name'] }}",
+            "Last Name": "={{ $json['Last Name'] }}",
+            "Email": "={{ $json.Email }}",
+            "Occupation": "={{ $json.Occupation }}"
+          },
+          "matchingColumns": [
+            "Email"
+          ],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Occupation",
+              "displayName": "Occupation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        208,
+        0
+      ],
+      "id": "b56d091a-36f9-401c-9231-e47d73171f44",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "njuGmAKE9z2xsGEO",
+          "name": "Google Sheets"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "45f2eef5-553e-41c1-8415-32c657a7e234",
+              "leftValue": "={{ $json.Occupation }}",
+              "rightValue": "Student",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "f4797174-18f6-490c-b8b1-02843023bc5e",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.Occupation }}",
+                    "rightValue": "Engineer",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "a3a73875-223d-471d-a6b9-cc37fac0cb1b"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "aa3f411f-2725-475f-a1a9-1467d695a0e0",
+                    "leftValue": "={{ $json.Occupation }}",
+                    "rightValue": "Doctor",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        624,
+        0
+      ],
+      "id": "c60589e2-4823-4e19-abc5-18bc5858a90d",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "sendTo": "test2@gmail.com",
+        "subject": "Hello",
+        "message": "Engineer Lead",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        832,
+        -112
+      ],
+      "id": "2883983b-e4b4-4e51-8dff-caa6b0a50439",
+      "name": "Send a message",
+      "webhookId": "6dc97e38-1478-4ca9-8b93-1807d47d5c9a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "yZMna7DhMUaUjnLl",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "test2@gmail.com",
+        "subject": "Hello",
+        "message": "Doctor Lead",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        832,
+        48
+      ],
+      "id": "689831d8-5e30-4d8c-9478-99b2f50a2d99",
+      "name": "Send a message1",
+      "webhookId": "6dc97e38-1478-4ca9-8b93-1807d47d5c9a",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "yZMna7DhMUaUjnLl",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1040,
+        -32
+      ],
+      "id": "1ef94734-7c30-4e34-a656-bfcabfe10d4e",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "sendTo": "testlead@gmail.com",
+        "subject": "New Lead",
+        "message": "You have a new lead, messaged",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1248,
+        -32
+      ],
+      "id": "6858f92a-f4f1-4120-b11c-d100dd53814b",
+      "name": "Send a message2",
+      "webhookId": "2264e977-906c-4f0b-96eb-c33b5fe0ec27",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "yZMna7DhMUaUjnLl",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "First Name": "Onkar2",
+          "Last Name": "Sarje2",
+          "Email": "onkarsarje2@gmail.com",
+          "Occupation": "Engineer",
+          "submittedAt": "2025-07-20T14:26:40.399-04:00",
+          "formMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ff3604b4-3630-4fa8-9b59-4ef0e301354d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "135f49431a9e230e0a19c3c240e18f67a7a65584a4d5f1b7f702bc630bf00a28"
+  },
+  "id": "KG4CHtiPwYY54jpa",
+  "tags": []
+}
